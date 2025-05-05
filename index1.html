@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VerseVibe: Match the Word</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #00ffe7;
+      text-shadow: 0 0 10px #00ffe7, 0 0 20px #ff00ff;
+    }
+
+    .instructions {
+      font-size: 1.2em;
+      margin: 20px auto;
+      max-width: 700px;
+      color: #ccc;
+      border: 2px dashed #ff00ff;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tile {
+      height: 100px;
+      background-image: url('bible.jpg');
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #fff;
+      border-radius: 15px;
+      box-shadow: 0 0 15px #00ffe7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .tile:hover {
+      transform: scale(1.05);
+    }
+
+    .tile.revealed {
+      background-color: rgba(0, 0, 0, 0.8);
+      background-image: none;
+    }
+
+    .tile.matched {
+      background-color: #00ff88;
+      color: black;
+      pointer-events: none;
+    }
+
+    .win-popup {
+      display: none;
+      margin-top: 40px;
+    }
+
+    .win-popup img {
+      width: 200px;
+      margin-top: 20px;
+    }
+
+    .win-popup a {
+      display: inline-block;
+      margin-top: 10px;
+      color: #00ffe7;
+      text-decoration: none;
+      background-color: #222;
+      border: 2px solid #00ffe7;
+      padding: 10px 20px;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+
+    .win-popup a:hover {
+      background-color: #00ffe7;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+
+<h1>VerseVibe: Match the Word</h1>
+
+<div class="instructions">
+  Match the Bible verse reference (e.g. "John 3:16") with the correct Bible verse.  
+  Click on two tiles. If they match, they stay revealed. If not, they flip back.  
+  Match all 10 pairs to complete the Bible Challenge!
+</div>
+
+<div class="game-board" id="gameBoard"></div>
+
+<div class="win-popup" id="winPopup">
+  <h2>🎉 You Win! Bible Challenge Complete! 🎉</h2>
+  <p>Download your Bible Champion Sticker!</p>
+  <img src="youwin.png" alt="Bible Champion Sticker">
+  <br>
+  <a href="youwin.png" download="Bible_Challenge_Champion.png">Download Sticker</a>
+</div>
+
+<script>
+  const verses = [
+    {ref: "Proverbs 30:5", text: "Every word of God proves true."},
+    {ref: "Matthew 6:24", text: "No one can serve two masters."},
+    {ref: "Deuteronomy 6:5", text: "You shall love the LORD your God with all your heart and with all your soul and with all your might."},
+    {ref: "Matthew 22:39", text: "You shall love your neighbor as yourself."},
+    {ref: "1 Corinthians 10:31", text: "Whatever you do, do everything for the glory of God."},
+    {ref: "Psalm 19:1", text: "The heavens declare the glory of God."},
+    {ref: "Genesis 1:1", text: "In the beginning, God created the heavens and the earth."},
+    {ref: "Psalm 139:14", text: "I praise you God, for I am fearfully and wonderfully made."},
+    {ref: "Isaiah 43:5", text: "Do not be afraid for I am with you."},
+    {ref: "Psalm 1:6", text: "The LORD knows the way of the righteous, but the way of the wicked will perish."}
+  ];
+
+  let cards = [];
+  verses.forEach(v => {
+    cards.push({ type: 'ref', value: v.ref });
+    cards.push({ type: 'text', value: v.text });
+  });
+
+  cards = cards.sort(() => Math.random() - 0.5);
+
+  const gameBoard = document.getElementById('gameBoard');
+  const winPopup = document.getElementById('winPopup');
+  let firstCard = null;
+  let lockBoard = false;
+  let matchesFound = 0;
+
+  cards.forEach(card => {
+    const tile = document.createElement('div');
+    tile.classList.add('tile');
+    tile.dataset.type = card.type;
+    tile.dataset.value = card.value;
+    tile.textContent = '';
+    tile.addEventListener('click', () => handleTileClick(tile));
+    gameBoard.appendChild(tile);
+  });
+
+  function handleTileClick(tile) {
+    if (lockBoard || tile.classList.contains('revealed') || tile.classList.contains('matched')) return;
+
+    tile.classList.add('revealed');
+    tile.textContent = tile.dataset.value;
+
+    if (!firstCard) {
+      firstCard = tile;
+    } else {
+      const match = checkMatch(firstCard, tile);
+      if (match) {
+        firstCard.classList.add('matched');
+        tile.classList.add('matched');
+        matchesFound++;
+        firstCard = null;
+        if (matchesFound === verses.length) {
+          setTimeout(() => winPopup.style.display = 'block', 1000);
+        }
+      } else {
+        lockBoard = true;
+        setTimeout(() => {
+          firstCard.classList.remove('revealed');
+          tile.classList.remove('revealed');
+          firstCard.textContent = '';
+          tile.textContent = '';
+          firstCard = null;
+          lockBoard = false;
+        }, 1500);
+      }
+    }
+  }
+
+  function checkMatch(card1, card2) {
+    const ref = card1.dataset.type === 'ref' ? card1.dataset.value : card2.dataset.value;
+    const text = card1.dataset.type === 'text' ? card1.dataset.value : card2.dataset.value;
+    return verses.some(v => v.ref === ref && v.text === text);
+  }
+</script>
+
+</body>
+</html>
