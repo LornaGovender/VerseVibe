@@ -30,7 +30,7 @@ See [LICENSE.txt](LICENSE.txt) for details.
 
 ## 📧 Contact
 
-Made with ❤️ by [Your Name or Femina Code]  
-Website: [your site]  
-Email: [your email]
+Made with ❤️ by Lorna Govender @PikaminkStudios 
+Website: www.github.com/pikamink  
+Email: pikaminkza@gmail.com
 
