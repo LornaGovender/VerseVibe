@@ -1,0 +1,11 @@
+Copyright (c) 2025 Lorna Govender @PikaminkStudios
+
+All rights reserved.
+
+This software and its assets (including HTML, CSS, JavaScript code, images, and designs) are licensed, not sold.
+
+You may not copy, modify, distribute, sublicense, or use this software for any commercial or non-commercial purposes without express written permission from the author.
+
+Unauthorized use, reproduction, or distribution is strictly prohibited.
+
+For permissions or licensing inquiries, contact: pikaminkza@gmail.com
