@@ -3,29 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <title>VerseVibe: Match the Word</title>
+  <link rel="icon" href="bible.jpg" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&family=Pacifico&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #000;
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f6e6ff, #e0f7ff);
+      color: #333;
+      font-family: 'Quicksand', sans-serif;
       text-align: center;
       padding: 20px;
     }
 
     h1 {
+      font-family: 'Pacifico', cursive;
       font-size: 3em;
-      color: #00ffe7;
-      text-shadow: 0 0 10px #00ffe7, 0 0 20px #ff00ff;
+      color: #9b30ff;
+      text-shadow: 1px 1px 3px #fff;
     }
 
     .instructions {
       font-size: 1.2em;
       margin: 20px auto;
       max-width: 700px;
-      color: #ccc;
-      border: 2px dashed #ff00ff;
+      color: #555;
+      background: #ffffffcc;
+      border: 2px dashed #ff90b3;
       padding: 15px;
-      border-radius: 10px;
+      border-radius: 15px;
     }
 
     .game-board {
@@ -40,63 +44,71 @@
 
     .tile {
       height: 100px;
-      background-image: url('bible.jpg');
-      background-size: cover;
-      background-position: center;
-      border: 2px solid #fff;
-      border-radius: 15px;
-      box-shadow: 0 0 15px #00ffe7;
+      background: linear-gradient(145deg, #ffe0f7, #e0faff);
+      border: 2px solid #ccc;
+      border-radius: 20px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
+      color: #333;
       font-weight: bold;
       text-align: center;
       padding: 10px;
       cursor: pointer;
-      transition: transform 0.3s;
+      transition: all 0.3s ease;
+      font-size: 0.9em;
     }
 
     .tile:hover {
-      transform: scale(1.05);
+      transform: translateY(-5px) scale(1.03);
+      background: linear-gradient(145deg, #e0faff, #ffe0f7);
     }
 
     .tile.revealed {
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: #fff;
       background-image: none;
+      box-shadow: inset 0 0 10px rgba(255, 175, 204, 0.5);
     }
 
     .tile.matched {
-      background-color: #00ff88;
-      color: black;
+      background-color: #caffd0;
+      color: #222;
       pointer-events: none;
+      font-style: italic;
     }
 
     .win-popup {
       display: none;
       margin-top: 40px;
+      background: #fff0f9;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(200, 0, 150, 0.2);
     }
 
     .win-popup img {
-      width: 200px;
-      margin-top: 20px;
+      width: 180px;
+      margin-top: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ffaadd;
     }
 
     .win-popup a {
       display: inline-block;
-      margin-top: 10px;
-      color: #00ffe7;
+      margin-top: 15px;
+      color: white;
       text-decoration: none;
-      background-color: #222;
-      border: 2px solid #00ffe7;
-      padding: 10px 20px;
-      border-radius: 10px;
+      background-color: #ff5ea6;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
       transition: 0.3s;
+      font-weight: bold;
     }
 
     .win-popup a:hover {
-      background-color: #00ffe7;
-      color: black;
+      background-color: #ff94c2;
     }
   </style>
 </head>
@@ -105,9 +117,8 @@
 <h1>VerseVibe: Match the Word</h1>
 
 <div class="instructions">
-  Match the Bible verse reference (e.g. "John 3:16") with the correct Bible verse.  
-  Click on two tiles. If they match, they stay revealed. If not, they flip back.  
-  Match all 10 pairs to complete the Bible Challenge!
+  Match each Bible verse reference with its correct verse.<br>
+  Tap two tiles to find the match. Complete all pairs to win! 🙌
 </div>
 
 <div class="game-board" id="gameBoard"></div>
@@ -117,7 +128,7 @@
   <p>Download your Bible Champion Sticker!</p>
   <img src="VerseVibe_sticker.png" alt="Bible Champion Sticker">
   <br>
-  <a href="youwin.png" download="Bible_Challenge_Champion.png">Download Sticker</a>
+  <a href="VerseVibe_sticker.png" download="Bible_Challenge_Champion.png">Download Sticker</a>
 </div>
 
 <script>
