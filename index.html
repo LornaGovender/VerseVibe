@@ -34,55 +34,66 @@
   }
 
   .tile {
-    height: 100px;
-    background: linear-gradient(45deg, #ffd6ec, #d6fff7, #ffe4b3, #e6ddff);
-    background-size: 400% 400%;
-    animation: rainbow 8s ease infinite;
-    border: none;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-weight: bold;
-    text-align: center;
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1.5em;
-    position: relative;
-  }
+  height: 100px;
+  background: linear-gradient(135deg, #ff9ff3, #feca57, #48dbfb, #1dd1a1);
+  background-size: 400% 400%;
+  animation: rainbowFlow 6s ease infinite;
+  border: 2px solid #ffffffcc;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  font-size: 1em;
+  position: relative;
+  overflow: hidden;
+}
 
-  .tile::before {
-    content: "📖";
-    font-size: 2em;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0.5;
-    transition: opacity 0.3s;
-  }
+.tile::after {
+  content: "";
+  position: absolute;
+  bottom: -20%;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: inherit;
+  transform: scaleY(-1);
+  opacity: 0.25;
+  filter: blur(4px);
+  pointer-events: none;
+}
 
-  .tile.revealed::before,
-  .tile.matched::before {
-    content: "";
-    opacity: 0;
-  }
+.tile:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
 
-  .tile.revealed {
-    background: #fff;
-    color: #333;
-    font-size: 0.9em;
-    box-shadow: inset 0 0 10px rgba(255, 175, 204, 0.4);
-  }
+@keyframes rainbowFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-  .tile.matched {
-    background-color: #d1ffd6;
-    color: #222;
-    font-style: italic;
-    pointer-events: none;
-  }
+.tile.revealed {
+  background-color: #fff;
+  background-image: none;
+  color: #444;
+  box-shadow: inset 0 0 10px rgba(255, 175, 204, 0.4);
+}
+
+.tile.matched {
+  background-color: #b8f8c9;
+  color: #222;
+  pointer-events: none;
+  font-style: italic;
+}
+
 
   @keyframes rainbow {
     0% { background-position: 0% 50%; }
