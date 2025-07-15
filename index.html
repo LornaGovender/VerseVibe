@@ -1,135 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>VerseVibe: Match the Word</title>
-  <link rel="icon" href="bible.jpg" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&family=Pacifico&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background: linear-gradient(135deg, #f6e6ff, #e0f7ff);
-      color: #333;
-      font-family: 'Quicksand', sans-serif;
-      text-align: center;
-      padding: 20px;
-    }
+<style>
+  body {
+    background: linear-gradient(135deg, #f6e6ff, #e0f7ff);
+    font-family: 'Quicksand', sans-serif;
+    text-align: center;
+    color: #333;
+    padding: 20px;
+  }
 
-    h1 {
-      font-family: 'Pacifico', cursive;
-      font-size: 3em;
-      color: #9b30ff;
-      text-shadow: 1px 1px 3px #fff;
-    }
+  h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 3em;
+    color: #9b30ff;
+    text-shadow: 1px 1px 3px #fff;
+  }
 
-    .instructions {
-      font-size: 1.2em;
-      margin: 20px auto;
-      max-width: 700px;
-      color: #555;
-      background: #ffffffcc;
-      border: 2px dashed #ff90b3;
-      padding: 15px;
-      border-radius: 15px;
-    }
+  .instructions {
+    font-size: 1.2em;
+    max-width: 700px;
+    margin: 20px auto;
+    background: #ffffffcc;
+    border: 2px dashed #ff90b3;
+    padding: 15px;
+    border-radius: 15px;
+    color: #555;
+  }
 
-    .game-board {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 20px;
-      margin-top: 30px;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+  .game-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+    max-width: 800px;
+    margin: 30px auto 0;
+  }
 
-    .tile {
-      height: 100px;
-      background: linear-gradient(145deg, #ffe0f7, #e0faff);
-      border: 2px solid #ccc;
-      border-radius: 20px;
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #333;
-      font-weight: bold;
-      text-align: center;
-      padding: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 0.9em;
-    }
+  .tile {
+    height: 100px;
+    background: linear-gradient(45deg, #ffd6ec, #d6fff7, #ffe4b3, #e6ddff);
+    background-size: 400% 400%;
+    animation: rainbow 8s ease infinite;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.5em;
+    position: relative;
+  }
 
-    .tile:hover {
-      transform: translateY(-5px) scale(1.03);
-      background: linear-gradient(145deg, #e0faff, #ffe0f7);
-    }
+  .tile::before {
+    content: "📖";
+    font-size: 2em;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.5;
+    transition: opacity 0.3s;
+  }
 
-    .tile.revealed {
-      background-color: #fff;
-      background-image: none;
-      box-shadow: inset 0 0 10px rgba(255, 175, 204, 0.5);
-    }
+  .tile.revealed::before,
+  .tile.matched::before {
+    content: "";
+    opacity: 0;
+  }
 
-    .tile.matched {
-      background-color: #caffd0;
-      color: #222;
-      pointer-events: none;
-      font-style: italic;
-    }
+  .tile.revealed {
+    background: #fff;
+    color: #333;
+    font-size: 0.9em;
+    box-shadow: inset 0 0 10px rgba(255, 175, 204, 0.4);
+  }
 
-    .win-popup {
-      display: none;
-      margin-top: 40px;
-      background: #fff0f9;
-      padding: 20px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(200, 0, 150, 0.2);
-    }
+  .tile.matched {
+    background-color: #d1ffd6;
+    color: #222;
+    font-style: italic;
+    pointer-events: none;
+  }
 
-    .win-popup img {
-      width: 180px;
-      margin-top: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ffaadd;
-    }
+  @keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
 
-    .win-popup a {
-      display: inline-block;
-      margin-top: 15px;
-      color: white;
-      text-decoration: none;
-      background-color: #ff5ea6;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 12px;
-      transition: 0.3s;
-      font-weight: bold;
-    }
+  .win-popup {
+    display: none;
+    margin-top: 40px;
+    background: #fff0f9;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(200, 0, 150, 0.2);
+  }
 
-    .win-popup a:hover {
-      background-color: #ff94c2;
-    }
-  </style>
-</head>
-<body>
+  .win-popup img {
+    width: 180px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ffaadd;
+  }
 
-<h1>VerseVibe: Match the Word</h1>
+  .win-popup a {
+    display: inline-block;
+    margin-top: 15px;
+    color: white;
+    text-decoration: none;
+    background-color: #ff5ea6;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: bold;
+  }
 
-<div class="instructions">
-  Match each Bible verse reference with its correct verse.<br>
-  Tap two tiles to find the match. Complete all pairs to win! 🙌
-</div>
+  .win-popup a:hover {
+    background-color: #ff94c2;
+  }
+</style>
 
-<div class="game-board" id="gameBoard"></div>
-
-<div class="win-popup" id="winPopup">
-  <h2>🎉 You Win! Bible Challenge Complete! 🎉</h2>
-  <p>Download your Bible Champion Sticker!</p>
-  <img src="VerseVibe_sticker.png" alt="Bible Champion Sticker">
-  <br>
-  <a href="VerseVibe_sticker.png" download="Bible_Challenge_Champion.png">Download Sticker</a>
-</div>
 
 <script>
   const verses = [
